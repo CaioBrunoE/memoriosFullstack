@@ -4,20 +4,21 @@ const router = express.Router()
 
 const upload = require("./helpers/upload");
 
-const {createMemory} = require("./controllers/MemoryController")
+const { createMemory, getMemories } = require("./controllers/MemoryController")
 
-  router.post(
+router.post(
     "/",
     upload.single("image"),
     (req, res, next) => {
-      const image = req.file;
-      if (!image) {
-        return res.status(400).json({ msg: "Por favor, envie um arquivo." });
-      }
-      next();
+        const image = req.file;
+        if (!image) {
+            return res.status(400).json({ msg: "Por favor, envie um arquivo." });
+        }
+        next();
     },
     (req, res) => createMemory(req, res)
-  );
-  
+);
+router.get("/", (req, res) => getMemories(req, res))
+
 
 module.exports = router
